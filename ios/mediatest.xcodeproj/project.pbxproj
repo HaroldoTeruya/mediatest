@@ -729,14 +729,14 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 6MYSTGBER7;
+						DevelopmentTeam = 86G9474ZUN;
 						LastSwiftMigration = 0900;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1273,9 +1273,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = mediatest/mediatest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 6MYSTGBER7;
+				DEVELOPMENT_TEAM = 86G9474ZUN;
 				INFOPLIST_FILE = mediatest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1283,7 +1284,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.falafreud.mediatest;
 				PRODUCT_NAME = mediatest;
 				SWIFT_OBJC_BRIDGING_HEADER = "mediatest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1297,8 +1298,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = mediatest/mediatest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6MYSTGBER7;
+				DEVELOPMENT_TEAM = 86G9474ZUN;
 				INFOPLIST_FILE = mediatest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1306,7 +1308,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.falafreud.mediatest;
 				PRODUCT_NAME = mediatest;
 				SWIFT_OBJC_BRIDGING_HEADER = "mediatest-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
