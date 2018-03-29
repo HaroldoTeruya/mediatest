@@ -431,7 +431,8 @@ export default class App extends Component<{}> {
                             * (mainBundlePackageName) Use "com.mediatest" to use in the mediatest project.
                             */
                             if ( Platform.OS === "ios" ) {
-                                
+                                var response = await CallManager.registerPushKit();
+                                alert(response);
                             } else {
                                 var response = await CallManager.connectSocketIO("http://10.0.2.2:3000", "com.mediatest", "chat message");
                                 switch (response) {

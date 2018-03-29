@@ -85,8 +85,7 @@ public class MainActivity extends ReactActivity
                     bundle.containsKey(CallManagerModule.Call.NAME) &&
                     bundle.containsKey(CallManagerModule.Call.PROFILE_IMAGE) &&
                     bundle.containsKey(CallManagerModule.Call.IS_LEADER) &&
-                    bundle.containsKey(CallManagerModule.Call.VIDEO_HOURS)
-                    ) {
+                    bundle.containsKey(CallManagerModule.Call.VIDEO_HOURS)) {
 
                 this.bundle = new Bundle();
                 // put any initialProps here
