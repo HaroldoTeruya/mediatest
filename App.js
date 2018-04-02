@@ -19,7 +19,7 @@ import {
     InteractionManager
 } from 'react-native';
 
-import { AudioManager, DirectoryManager, AudioOutputRoute, DeviceManager, CallManager, ProximityState, BlurView } from 'react-native-media';
+import { AudioManager, DirectoryManager, AudioOutputRoute, DeviceManager, ProximityState, BlurView } from 'react-native-media';
 
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
@@ -421,39 +421,6 @@ export default class App extends Component<{}> {
                             color="#841584"/>
 
                     </View>
-
-                    <Button
-                        style={styles.button}
-                        onPress={async () => {
-
-                            /* (ipAddress) Use "http://10.0.2.2:3000" to test locally in the Android Emulator.
-                            * (serverChannel) Use "chat message" to receive message from server. The server project is in the /Users/Teruya/Documents/sockeio-development/sender/
-                            * (mainBundlePackageName) Use "com.mediatest" to use in the mediatest project.
-                            */
-                            if ( Platform.OS === "ios" ) {
-                                var response = await CallManager.registerPushKit();
-                                alert(response);
-                            } else {
-                                var response = await CallManager.connectSocketIO("http://10.0.2.2:3000", "com.mediatest", "chat message");
-                                switch (response) {
-                                        case CallManager.Response.INPUT_ERROR:
-                                            alert("Some input is corrupted or missing");
-                                            break;
-                                        case CallManager.Response.BRIDGE_ACCESS_ERROR:
-                                            alert("Bridge is destroyed or bad instantiation");
-                                            break;
-                                        case CallManager.Response.UNKNOWN_ERROR:
-                                            alert("No ideia, but got a error");
-                                            break;
-                                        case CallManager.Response.SERVICE_STARTED:
-                                            alert("Service started with success, NOT known if the connection was a success");
-                                            break;
-                                    default:
-                                }
-                            }
-                        }}
-                        title="CALL"
-                        color="#841584"/>
 
                 </View>
 
