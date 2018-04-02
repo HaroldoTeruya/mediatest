@@ -63,7 +63,7 @@ export default class App extends Component<{}> {
         // DeviceEventEmitter.addListener(AudioManager.Events.onAudioFinished, (currentTime) => {
         //     alert("finished!");
         // });
-        //======================================================
+        //=====================================================
 
         DeviceManager.setOnSilentSwitchStateChanged((enable) => {
             alert("status silent switch: " + enable);
