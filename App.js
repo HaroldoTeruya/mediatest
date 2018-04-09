@@ -20,7 +20,6 @@ import {
 } from 'react-native';
 
 import { AudioManager, DirectoryManager, AudioOutputRoute, DeviceManager, CallManager, ProximityState, BlurView } from 'react-native-media';
-
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
 let url = "./image.png"
@@ -47,8 +46,6 @@ export default class App extends Component<{}> {
           imageData: "",
           viewRef: null,
       };
-
-      // console.log(props.sessionId);
     }
 
     async componentDidMount() {
@@ -75,7 +72,7 @@ export default class App extends Component<{}> {
         });
 
         DeviceManager.setProximityChangedCallback((state) => {
-            console.log(state);
+            console.log("ProximityChangedCallback: " + state);
             switch (state) {
                 case ProximityState.NEAR:
                     console.log("current state near");
@@ -91,6 +88,16 @@ export default class App extends Component<{}> {
                     break;
                 default:
             }
+        });
+
+        console.log("User notification request authorization: " + await CallManager.requestAuthorization());
+        console.log("Get the device token: " + await CallManager.requestDeviceToken());
+
+        DeviceEventEmitter.addListener(CallManager.Event.ON_INCOMING_CALL, (data) => {
+            console.log(CallManager.Event.ON_INCOMING_CALL + " " + data);
+        });
+        DeviceEventEmitter.addListener(CallManager.Event.ON_LOST_CALL, (data) => {
+            console.log(CallManager.Event.ON_LOST_CALL + " " + data);
         });
     }
 
@@ -431,25 +438,25 @@ export default class App extends Component<{}> {
                             * (mainBundlePackageName) Use "com.mediatest" to use in the mediatest project.
                             */
                             if ( Platform.OS === "ios" ) {
-                                var response = await CallManager.registerPushKit();
-                                alert(response);
+                                // var response = await CallManager.registerPushKit();
+                                // alert(response);
                             } else {
-                                var response = await CallManager.connectSocketIO("http://10.0.2.2:3000", "com.mediatest", "chat message");
-                                switch (response) {
-                                        case CallManager.Response.INPUT_ERROR:
-                                            alert("Some input is corrupted or missing");
-                                            break;
-                                        case CallManager.Response.BRIDGE_ACCESS_ERROR:
-                                            alert("Bridge is destroyed or bad instantiation");
-                                            break;
-                                        case CallManager.Response.UNKNOWN_ERROR:
-                                            alert("No ideia, but got a error");
-                                            break;
-                                        case CallManager.Response.SERVICE_STARTED:
-                                            alert("Service started with success, NOT known if the connection was a success");
-                                            break;
-                                    default:
-                                }
+                                // var response = await CallManager.connectSocketIO("http://10.0.2.2:3000", "com.mediatest", "chat message");
+                                // switch (response) {
+                                //         case CallManager.Response.INPUT_ERROR:
+                                //             alert("Some input is corrupted or missing");
+                                //             break;
+                                //         case CallManager.Response.BRIDGE_ACCESS_ERROR:
+                                //             alert("Bridge is destroyed or bad instantiation");
+                                //             break;
+                                //         case CallManager.Response.UNKNOWN_ERROR:
+                                //             alert("No ideia, but got a error");
+                                //             break;
+                                //         case CallManager.Response.SERVICE_STARTED:
+                                //             alert("Service started with success, NOT known if the connection was a success");
+                                //             break;
+                                //     default:
+                                // }
                             }
                         }}
                         title="CALL"

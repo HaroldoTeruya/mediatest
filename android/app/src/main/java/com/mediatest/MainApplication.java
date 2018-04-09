@@ -4,6 +4,8 @@ import android.app.Application;
 import android.view.WindowManager;
 
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.media.AudioManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new ReactNativePushNotificationPackage(),
+            new AudioManagerPackage(),
         new AudioManagerPackage(),
         new DeviceManagerPackage(),
         new DirectoryManagerPackage(),

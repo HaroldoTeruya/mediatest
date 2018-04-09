@@ -35,6 +35,8 @@
 		5C0084E2206D3F9500029BF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0084E1206D3F9500029BF7 /* AppDelegate.m */; };
 		5C18E75B203B549A005A5530 /* libRNReactNativeMedia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C18E75A203B5488005A5530 /* libRNReactNativeMedia.a */; };
 		5C18E75E203B54AC005A5530 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C18E75D203B54AC005A5530 /* dummy.swift */; };
+		5C1AEC502073D33D00F8AF35 /* CallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1AEC4E2073D33D00F8AF35 /* CallModel.swift */; };
+		5C1AEC512073D33D00F8AF35 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1AEC4F2073D33D00F8AF35 /* CallManager.swift */; };
 		5C707CC82064652600C9302A /* head.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C707CA02064652500C9302A /* head.png */; };
 		5C707CC92064652600C9302A /* Ringtone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5C707CC72064652500C9302A /* Ringtone.caf */; };
 		5C7A9DF7203CBD4F00535399 /* Lindsey Stirling - Prism.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C7A9DD0203CBD4F00535399 /* Lindsey Stirling - Prism.mp3 */; };
@@ -352,6 +354,8 @@
 		5C18E720203B5488005A5530 /* RNReactNativeMedia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeMedia.xcodeproj; path = "../node_modules/react-native-media/ios/RNReactNativeMedia.xcodeproj"; sourceTree = "<group>"; };
 		5C18E75C203B54AC005A5530 /* mediatest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mediatest-Bridging-Header.h"; sourceTree = "<group>"; };
 		5C18E75D203B54AC005A5530 /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
+		5C1AEC4E2073D33D00F8AF35 /* CallModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallModel.swift; sourceTree = "<group>"; };
+		5C1AEC4F2073D33D00F8AF35 /* CallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		5C707CA02064652500C9302A /* head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = head.png; sourceTree = "<group>"; };
 		5C707CC72064652500C9302A /* Ringtone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ringtone.caf; path = ../../../test/pushkit/CallKit/CallKitDemo/Ringtone.caf; sourceTree = "<group>"; };
 		5C7A9DD0203CBD4F00535399 /* Lindsey Stirling - Prism.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Lindsey Stirling - Prism.mp3"; sourceTree = "<group>"; };
@@ -500,6 +504,7 @@
 		13B07FAE1A68108700A75B9A /* mediatest */ = {
 			isa = PBXGroup;
 			children = (
+				5C1AEC222073C79C00F8AF35 /* CallManager */,
 				5CA0714A206AEDBB00959406 /* mediatest.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				5CD2C0E020616512005C3C5B /* Ringtone.caf */,
@@ -555,6 +560,15 @@
 				5C18E75A203B5488005A5530 /* libRNReactNativeMedia.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5C1AEC222073C79C00F8AF35 /* CallManager */ = {
+			isa = PBXGroup;
+			children = (
+				5C1AEC4F2073D33D00F8AF35 /* CallManager.swift */,
+				5C1AEC4E2073D33D00F8AF35 /* CallModel.swift */,
+			);
+			name = CallManager;
 			sourceTree = "<group>";
 		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
@@ -1178,8 +1192,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C18E75E203B54AC005A5530 /* dummy.swift in Sources */,
+				5C1AEC512073D33D00F8AF35 /* CallManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				5C0084E2206D3F9500029BF7 /* AppDelegate.m in Sources */,
+				5C1AEC502073D33D00F8AF35 /* CallModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1276,9 +1292,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 86G9474ZUN;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/Libraries/react-native-media/**";
 				INFOPLIST_FILE = mediatest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1302,9 +1319,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86G9474ZUN;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/Libraries/react-native-media/**";
 				INFOPLIST_FILE = mediatest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
