@@ -126,7 +126,7 @@ export default class App extends Component<{}> {
     }
 
     async loadAndPlay(path : string) {
-        let sucess = await AudioManager.loadAndPlay(path, AudioManager.AudioOutputRoute.EAR_SPEAKER, false, 40681);
+        let sucess = await AudioManager.loadPlay(path, 1, false, 40681);
         console.log("load and play: " + sucess);
         alert(sucess);
     }
@@ -151,7 +151,7 @@ export default class App extends Component<{}> {
 
     timeChange(time : int) {
         this.setState({time});
-        AudioManager.seekTo(time*1000);
+        AudioManager.seekTime(time*1000);
     }
 
     async enviorment() {
