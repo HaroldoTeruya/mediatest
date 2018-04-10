@@ -4,7 +4,13 @@ https://websitebeaver.com/callkit-swift-tutorial-super-easy
 openssl pkcs12 -in /Users/Teruya/Documents/react-native-development/repository/react-native-media-ios-certificates/voipservice.p12 -out /Users/Teruya/Documents/react-native-development/repository/react-native-media-ios-certificates/voipservice.pem
 openssl pkcs12 -in voipservice2.p12 -out /Users/Teruya/Documents/react-native-development/repository/react-native-media-ios-certificates/voipservice2.pem
 
-curl -v -d '{"aps":{"token":"some-token", "session":"some-session", "name":"some-name", "imageUrl":"https://www.gstatic.com/webp/gallery3/2_webp_ll.png", "timeStamp":"1522276898", "keepAlive":"99999"}}' --http2 --cert voipservice.pem:Aa123698741 https://api.development.push.apple.com/3/device/6cb4d9c7d023e40e2c145425b09a69097588e5186ab7779e3a6bdbd49c02e36c
+// 1
+curl -v -d '{"aps":{"token":"some-token", "session":"some-session", "name":"some-name", "imageUrl":"https://www.gstatic.com/webp/gallery3/2_webp_ll.png", "timeStamp":"1523272573", "keepAlive":"99999"}}' --http2 --cert voipservice.pem:Aa123698741 https://api.development.push.apple.com/3/device/6cb4d9c7d023e40e2c145425b09a69097588e5186ab7779e3a6bdbd49c02e36c
+curl -v -d '{"aps":{"token":"some-token", "session":"some-session", "name":"some-name", "imageUrl":"https://www.gstatic.com/webp/gallery3/2_webp_ll.png", "timeStamp":"1523272573", "keepAlive":"99999"}}' --http2 --cert voipservice.pem:Aa123698741 https://api.development.push.apple.com/3/device/6cb4d9c7d023e40e2c145425b09a69097588e5186ab7779e3a6bdbd49c02e36c
+
+// 2
+curl -v -d '{"aps":{"token":"some-token", "session":"some-session", "name":"some-name", "imageUrl":"https://www.gstatic.com/webp/gallery3/2_webp_ll.png", "timeStamp":"1523272573", "keepAlive":"99999"}}' --http2 --cert voipservice.pem:Aa123698741 https://api.development.push.apple.com/3/device/040984ce63cb6f625dd0c5145a6a38aaac5c2bc2bb2f35aa355b599dfa4bf36d
+curl -v -d '{"aps":{"token":"some-token", "session":"some-session", "name":"some-name", "imageUrl":"https://www.gstatic.com/webp/gallery3/2_webp_ll.png", "timeStamp":"1523272573", "keepAlive":"0"}}' --http2 --cert voipservice.pem:Aa123698741 https://api.development.push.apple.com/3/device/040984ce63cb6f625dd0c5145a6a38aaac5c2bc2bb2f35aa355b599dfa4bf36d
 
 {
     "sessionId": "data.sessionId",
