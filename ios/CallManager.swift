@@ -11,9 +11,16 @@ import AVFoundation
 import UserNotifications
 
 /*
- * UserDefaults.standard.set(granted, forKey: "USER_NOTIFICATION_REQUEST_AUTHORIZATION")
- * UserDefaults.standard.set(token, forKey: "PUSH_DEVICE_TOKEN")
+UserDefaults.standard.set(granted, forKey: "USER_NOTIFICATION_REQUEST_AUTHORIZATION")
+UserDefaults.standard.set(token, forKey: "PUSH_DEVICE_TOKEN")
+ 
+NotificationCenter.default.post(name: .notify, object: [self.status: INCOMING_CALL, self.data: json])
+NotificationCenter.default.post(name: .notify, object: [self.status: LOST_CALL, self.data: json])
  */
+
+extension Notification.Name {
+  static let notify = Notification.Name("notify")
+}
 
 @objc class CallManager: NSObject {
   
@@ -30,26 +37,30 @@ import UserNotifications
   let timeIntervalNotification = 3
   let maxCallCounterNotification = 5
   
-  let onIncomingCall = "onIncomingCall"
-  let onLostCall = "onLostCall"
-  let onPushTokenRegistered = "onPushTokenRegistered"
-  let onNotificationRequest = "onNotificationRequest"
-      
+//  let onIncomingCall = "onIncomingCall"
+//  let onLostCall = "onLostCall"
+//  let onPushTokenRegistered = "onPushTokenRegistered"
+//  let onNotificationRequest = "onNotificationRequest"
+  
+  let status = "status"
+  let data = "data"
+  
+  let INCOMING_CALL = 0
+  let LOST_CALL = 1
+  
   var model = CallModel()
   var hasCall = ""
   var hasLostCall = false
   var appDelegate: AppDelegate? = nil
-  var bridge: RCTBridge!
+//  var bridge: RCTBridge!
   
-  func requestAuthorization(_ application : UIApplication, bridge: RCTBridge, appDelegate: AppDelegate) -> Void {
+  func requestAuthorization(_ application : UIApplication, appDelegate: AppDelegate) -> Void {
     
     print("On requestAuthorization:")
+    
+    // add observer for incoming push notification
     NotificationCenter.default.addObserver(self, selector: #selector(self.appMovedToActive), name: .UIApplicationDidBecomeActive, object: nil)
     
-    if bridge == nil {
-      print("bridge nil")
-      return
-    }
     if appDelegate == nil {
       print("AppDelegate nil")
       return
@@ -59,7 +70,6 @@ import UserNotifications
       return
     }
     
-    self.bridge = bridge
     self.appDelegate = appDelegate
     
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
@@ -88,7 +98,11 @@ import UserNotifications
       do {
         let jsonData = try JSONSerialization.data(withJSONObject: self.model.incomingCallData)
         if let json = String(data: jsonData, encoding: .utf8) {
-          bridge.eventDispatcher().sendAppEvent( withName: self.onIncomingCall, body: json)
+          
+          // on incoming call
+          // bridge.eventDispatcher().sendAppEvent( withName: self.onIncomingCall, body: json)
+          NotificationCenter.default.post(name: .notify, object: [self.status: INCOMING_CALL, self.data: json])
+          
         }
       } catch {
         print("something went wrong with parsing json")
@@ -101,7 +115,10 @@ import UserNotifications
       do {
         let jsonData = try JSONSerialization.data(withJSONObject: self.model.incomingCallData)
         if let json = String(data: jsonData, encoding: .utf8) {
-          bridge.eventDispatcher().sendAppEvent( withName: self.onLostCall, body: json)
+          
+          // on lost call
+          // bridge.eventDispatcher().sendAppEvent( withName: self.onLostCall, body: json)
+          NotificationCenter.default.post(name: .notify, object: [self.status: LOST_CALL, self.data: json])
         }
       } catch {
         print("something went wrong with parsing json")

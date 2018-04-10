@@ -62,7 +62,7 @@
 }
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type {
-  [_callManager didReceiveIncomingPushWith:payload.dictionaryPayload];
+  [_callManager didReceiveIncomingPushWith:payload.dictionaryPayload];    
 }
 
 @end
