@@ -44,6 +44,9 @@ extension Notification.Name {
   
   let status = "status"
   let data = "data"
+  let CALL_STATUS = "CALL_STATUS"
+  let USER_NOTIFICATION_REQUEST_AUTHORIZATION = "USER_NOTIFICATION_REQUEST_AUTHORIZATION"
+  let PUSH_DEVICE_TOKEN = "PUSH_DEVICE_TOKEN"
   
   let INCOMING_CALL = 0
   let LOST_CALL = 1
@@ -59,7 +62,7 @@ extension Notification.Name {
     print("On requestAuthorization:")
     
     // add observer for incoming push notification
-    NotificationCenter.default.addObserver(self, selector: #selector(self.appMovedToActive), name: .UIApplicationDidBecomeActive, object: nil)
+//    NotificationCenter.default.addObserver(self, selector: #selector(self.appMovedToActive), name: .UIApplicationDidBecomeActive, object: nil)
     
     if appDelegate == nil {
       print("AppDelegate nil")
@@ -77,31 +80,39 @@ extension Notification.Name {
       if granted {
         application.registerForRemoteNotifications()
         self.model.isPermissionNotificationGranted = granted
-        UserDefaults.standard.set(granted, forKey: "USER_NOTIFICATION_REQUEST_AUTHORIZATION")
+        UserDefaults.standard.set(granted, forKey: self.USER_NOTIFICATION_REQUEST_AUTHORIZATION)
         print("granted: \(granted)")
       }
     }
   }
   
-  @objc func appMovedToActive() {
-    print("appMovedToActive: \(self.hasLostCall)")
-    if self.hasLostCall {
-      sendLostCallAppEvent()
-    } else {
-      sendIncomingCallAppEvent()
-    }
-  }
+//  @objc func appMovedToActive() {
+//    print("appMovedToActive: \(self.hasLostCall)")
+//    if self.hasLostCall {
+//      sendLostCallAppEvent()
+//    } else {
+//      sendIncomingCallAppEvent()
+//    }
+//  }
   
-  func sendIncomingCallAppEvent() -> Void {
+  func storeIncomingCall() -> Void {
     // try to send incoming call
-    if self.model.incomingCallData != nil, let aps = self.model.incomingCallData![apsNotification] as? NSDictionary {
+    if self.model.incomingCallData != nil,
+      let aps = self.model.incomingCallData![apsNotification] as? NSDictionary {
       do {
         let jsonData = try JSONSerialization.data(withJSONObject: self.model.incomingCallData)
         if let json = String(data: jsonData, encoding: .utf8) {
+          
+          if self.hasLostCall {
+            UserDefaults.standard.setPersistentDomain([self.status: self.LOST_CALL, self.data: json], forName: self.CALL_STATUS)
+          } else {
+            UserDefaults.standard.setPersistentDomain([self.status: self.INCOMING_CALL, self.data: json], forName: self.CALL_STATUS)
+          }
           
           // on incoming call
           // bridge.eventDispatcher().sendAppEvent( withName: self.onIncomingCall, body: json)
-          NotificationCenter.default.post(name: .notify, object: [self.status: INCOMING_CALL, self.data: json])
+          // NotificationCenter.default.post(name: .notify, object: [self.status: INCOMING_CALL, self.data: json])
+//          UserDefaults.standard.setPersistentDomain([self.status: self.INCOMING_CALL, self.data: json], forName: self.CALL_STATUS)
           
         }
       } catch {
@@ -110,26 +121,27 @@ extension Notification.Name {
     }
   }
   
-  func sendLostCallAppEvent() -> Void {
-    if self.model.incomingCallData != nil, let aps = self.model.incomingCallData![apsNotification] as? NSDictionary {
-      do {
-        let jsonData = try JSONSerialization.data(withJSONObject: self.model.incomingCallData)
-        if let json = String(data: jsonData, encoding: .utf8) {
-          
-          // on lost call
-          // bridge.eventDispatcher().sendAppEvent( withName: self.onLostCall, body: json)
-          NotificationCenter.default.post(name: .notify, object: [self.status: LOST_CALL, self.data: json])
-        }
-      } catch {
-        print("something went wrong with parsing json")
-      }
-    }
-  }
+//  func sendLostCallAppEvent() -> Void {
+//    if self.model.incomingCallData != nil, let aps = self.model.incomingCallData![apsNotification] as? NSDictionary {
+//      do {
+//        let jsonData = try JSONSerialization.data(withJSONObject: self.model.incomingCallData)
+//        if let json = String(data: jsonData, encoding: .utf8) {
+//
+//          // on lost call
+//          // bridge.eventDispatcher().sendAppEvent( withName: self.onLostCall, body: json)
+//          // NotificationCenter.default.post(name: .notify, object: [self.status: LOST_CALL, self.data: json])
+//          UserDefaults.standard.setPersistentDomain([self.status: self.LOST_CALL, self.data: json], forName: self.CALL_STATUS)
+//        }
+//      } catch {
+//        print("something went wrong with parsing json")
+//      }
+//    }
+//  }
   
   func didUpdatePushCredentials(_ deviceToken: Data) -> Void {
     let token = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
     print("tokenString: \(token)")
-    UserDefaults.standard.set(token, forKey: "PUSH_DEVICE_TOKEN")
+    UserDefaults.standard.set(token, forKey: self.PUSH_DEVICE_TOKEN)
   }
   
   func didReceiveIncomingPushWith(_ payload: NSDictionary) -> Void {
@@ -166,12 +178,10 @@ extension Notification.Name {
         if existACall {
           
           // prepare and display call notification
-          self.hasLostCall = false
           prepareNotificationAlert(name: name, token: token, session: session, imageUrl: imageUrl)
         } else {
           
           // display notification that has a lost call
-          self.hasLostCall = true
           self.model.imageUrl = imageUrl
           self.model.name = name
           displayLostCallNotification()
@@ -181,12 +191,10 @@ extension Notification.Name {
         
         // the application is open, then send directly the data to the main
         self.hasLostCall = false
-        sendIncomingCallAppEvent()
       }
     } else if self.model.isCalling {
       
-      // if already exist an incoming calling, then cancel the current.
-      self.hasLostCall = false
+      // if already exist an incoming call, then cancel the current.
       displayLostCallNotification()
       stopNotificationAlert()
     } else {
@@ -247,6 +255,9 @@ extension Notification.Name {
    */
   func displayNotification() {
     print("displayNotification")
+    
+    self.hasLostCall = false
+    
     let currentOptionNotificationIdentifier = self.optionNotification + String(self.model.callCounterNotification)
     
     let yesAction = UNNotificationAction(identifier: self.accept, title: self.accept, options: [UNNotificationActionOptions.foreground])
@@ -287,6 +298,8 @@ extension Notification.Name {
    */
   func displayLostCallNotification() {
     print("displayLostCallNotification")
+    
+    self.hasLostCall = true
     
     let currentOptionNotificationIdentifier = "lostCallNotification"
     UNUserNotificationCenter.current().delegate = self
@@ -343,6 +356,7 @@ extension CallManager: UNUserNotificationCenterDelegate {
       return
     } else {
       print("Receiving user input from the notification alert: didReceive accepted")
+      storeIncomingCall()
       completionHandler()
     }
   }

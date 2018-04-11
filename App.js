@@ -40,6 +40,7 @@ export default class App extends Component<{}> {
 
       this.timeChange = this.timeChange.bind(this);
       this.addBLur = this.addBLur.bind(this);
+      this.handleCallManager = this.handleCallManager.bind(this);
 
       this.state = {
           time: 0,
@@ -71,7 +72,7 @@ export default class App extends Component<{}> {
             alert("WiredheadSet is: " + plugged);
         });
 
-        DeviceManager.setProximityChangedCallback((state) => {
+        DeviceManager.setProximityChangedCallback(async (state) => {
             console.log("ProximityChangedCallback: " + state);
             switch (state) {
                 case ProximityState.NEAR:
@@ -85,20 +86,37 @@ export default class App extends Component<{}> {
                     break;
                 case ProximityState.ONACTIVE:
                     console.log("current state active");
+                    await this.handleCallManager();
                     break;
                 default:
             }
         });
 
-        console.log("User notification request authorization: " + await CallManager.requestAuthorization());
-        console.log("Get the device token: " + await CallManager.requestDeviceToken());
+        let granted = await CallManager.requestAuthorization();
+        if ( granted ) {
+            console.log("User notification request authorization: " + granted);
+            console.log("Get the device token: " + await CallManager.requestDeviceToken());
+            // console.log("Call status: " + await CallManager.requestCallStatus());
+            // console.log("Call data: " + await CallManager.getCallData());
+        }
+    }
 
-        DeviceEventEmitter.addListener(CallManager.Event.ON_INCOMING_CALL, (data) => {
-            console.log(CallManager.Event.ON_INCOMING_CALL + " " + data);
-        });
-        DeviceEventEmitter.addListener(CallManager.Event.ON_LOST_CALL, (data) => {
-            console.log(CallManager.Event.ON_LOST_CALL + " " + data);
-        });
+    async handleCallManager(): void {
+        // this is crashing everything when opening
+        let granted = await CallManager.requestAuthorization();
+        if ( granted ) {
+            console.log("Call status: " + await CallManager.requestCallStatus());
+            console.log("Call data: " + await CallManager.getCallData());
+        }
+
+        // DeviceEventEmitter.addListener(CallManager.Event.ON_INCOMING_CALL, (data) => {
+        //     alert(CallManager.Event.ON_INCOMING_CALL);
+        //     console.log(CallManager.Event.ON_INCOMING_CALL + " " + data);
+        // });
+        // DeviceEventEmitter.addListener(CallManager.Event.ON_LOST_CALL, (data) => {
+        //     alert(CallManager.Event.ON_LOST_CALL);
+        //     console.log(CallManager.Event.ON_LOST_CALL + " " + data);
+        // });
     }
 
     async load(path : string) : boolean {
