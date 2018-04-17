@@ -1,11 +1,7 @@
 package com.mediatest;
 
 import android.app.Application;
-import android.view.WindowManager;
-
 import com.facebook.react.ReactApplication;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
-import com.media.AudioManagerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -14,7 +10,6 @@ import com.media.module.audio.AudioManagerPackage;
 import com.media.module.device.DeviceManagerPackage;
 // import com.media.module.blurview.BlurViewPackage;
 import com.media.module.directory.DirectoryManagerPackage;
-import com.media.module.call.CallManagerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +26,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
-            new ReactNativePushNotificationPackage(),
-            new AudioManagerPackage(),
         new AudioManagerPackage(),
         new DeviceManagerPackage(),
-        new DirectoryManagerPackage(),
-        new CallManagerPackage()
+        new DirectoryManagerPackage()
+
         //,
         // new BlurViewPackage()
       );

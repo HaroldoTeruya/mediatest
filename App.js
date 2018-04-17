@@ -96,27 +96,23 @@ export default class App extends Component<{}> {
         if ( granted ) {
             console.log("User notification request authorization: " + granted);
             console.log("Get the device token: " + await CallManager.requestDeviceToken());
-            // console.log("Call status: " + await CallManager.requestCallStatus());
-            // console.log("Call data: " + await CallManager.getCallData());
         }
     }
 
     async handleCallManager(): void {
-        // this is crashing everything when opening
         let granted = await CallManager.requestAuthorization();
         if ( granted ) {
-            console.log("Call status: " + await CallManager.requestCallStatus());
-            console.log("Call data: " + await CallManager.getCallData());
-        }
+            switch ( await CallManager.requestCallStatus() ) {
+                case CallManager.Response.INCOMING_CALL:
+                    console.log("Incoming data: " + await CallManager.getCallData());
+                    break;
+                case CallManager.Response.LOST_CALL:
+                    console.log("Losted data: " + await CallManager.getCallData());
+                    break
+                default: return;
 
-        // DeviceEventEmitter.addListener(CallManager.Event.ON_INCOMING_CALL, (data) => {
-        //     alert(CallManager.Event.ON_INCOMING_CALL);
-        //     console.log(CallManager.Event.ON_INCOMING_CALL + " " + data);
-        // });
-        // DeviceEventEmitter.addListener(CallManager.Event.ON_LOST_CALL, (data) => {
-        //     alert(CallManager.Event.ON_LOST_CALL);
-        //     console.log(CallManager.Event.ON_LOST_CALL + " " + data);
-        // });
+            }
+        }
     }
 
     async load(path : string) : boolean {
