@@ -12,7 +12,6 @@ import com.media.module.audio.AudioManagerPackage;
 import com.media.module.device.DeviceManagerPackage;
 // import com.media.module.blurview.BlurViewPackage;
 import com.media.module.directory.DirectoryManagerPackage;
-import com.media.module.call.CallManagerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
         new AudioManagerPackage(),
         new DeviceManagerPackage(),
-        new DirectoryManagerPackage(),
-        new CallManagerPackage()
+        new DirectoryManagerPackage()
         //,
         // new BlurViewPackage()
       );
