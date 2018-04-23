@@ -19,7 +19,7 @@ import {
     InteractionManager
 } from 'react-native';
 
-import { AudioManager, DirectoryManager, AudioOutputRoute, DeviceManager, ProximityState, BlurView } from 'react-native-media';
+import { AudioManager, DirectoryManager, AudioOutputRoute, DeviceManager, ProximityState, BlurView, RecorderManager } from 'react-native-media';
 
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
@@ -45,7 +45,7 @@ export default class App extends Component<{}> {
       this.state = {
           time: 0,
           imageData: "",
-          viewRef: null,
+          viewRef: null
       };
 
       // console.log(props.sessionId);
@@ -75,7 +75,6 @@ export default class App extends Component<{}> {
         });
 
         DeviceManager.setProximityChangedCallback((state) => {
-            console.log(state);
             switch (state) {
                 case ProximityState.NEAR:
                     console.log("current state near");
@@ -91,6 +90,17 @@ export default class App extends Component<{}> {
                     break;
                 default:
             }
+        });
+
+        DeviceEventEmitter.addListener(RecorderManager.Event.ON_TIME_CHANGED, (timed) => {
+            let time = parseInt(timed);
+            this.setState({time});
+        });
+        DeviceEventEmitter.addListener(RecorderManager.Event.ON_STARTED, () => {
+            console.log("Started recording");
+        });
+        DeviceEventEmitter.addListener(RecorderManager.Event.ON_ENDED, () => {
+            console.log("Ended recording");
         });
     }
 
@@ -419,6 +429,98 @@ export default class App extends Component<{}> {
                             }}
                             title="HAS WIREDHEAD"
                             color="#841584"/>
+
+                    </View>
+
+                    <View style={{flexDirection:'row'}}>
+
+                        <Button
+                            style={styles.button}
+                            onPress={
+                                async () => {
+                                    let response = await RecorderManager.start(await DirectoryManager.getDocumentDirectoryPath() + "/test.acc");
+                                    switch ( response ) {
+                                    	case RecorderManager.Response.IS_RECORDING:
+                                    		console.log("Manager already is recording audio");
+                                    		break;
+                                    	case RecorderManager.Response.SUCCESS:
+                                    		console.log("Process started with success");
+                                    		break;
+                                    	case RecorderManager.Response.FAILED:
+                                    		console.log("Process can not be executed or failed trying to execute");
+                                    		break;
+                                    	case RecorderManager.Response.UNKNOWN_ERROR:
+                                    		console.log("Unknown error occurred trying to execute");
+                                    		break;
+                                    	case RecorderManager.Response.INVALID_AUDIO_PATH:
+                                    		console.log("The path where the audio must be temporary stored is invalid");
+                                    		break;
+                                        case RecorderManager.Response.NOTHING_TO_STOP:
+                                            console.log("There is no record process to stop");
+                                            break;
+                                        case RecorderManager.Response.NO_PERMISSION:
+                                            console.log("Did you not forget ass permission manifest.xml or no user permission?");
+                                            break;
+                                    }
+                                }
+                            }
+                            title="START RECORD"
+                            color="#841584"/>
+
+                        <Button
+                            style={styles.button}
+                            onPress={
+                                async () => {
+                                    let response = await RecorderManager.stop();
+                                    switch ( response ) {
+                                    	case RecorderManager.Response.NOTHING_TO_STOP:
+                                    		console.log("Can not stop something that never started");
+                                    		break;
+                                    	case RecorderManager.Response.SUCCESS:
+                                    		console.log("Can start record process");
+                                    		break;
+                                    }
+
+                                    let sucess = await AudioManager.loadPlay(await DirectoryManager.getDocumentDirectoryPath() + "/test.acc", 0, false, 0);
+                                    console.log("load and play: " + sucess);
+                                }
+                            }
+                            title="STOP"
+                            color="#841584"/>
+
+                        <Button
+                            style={styles.button}
+                            onPress={
+                                async () => {
+                                    let response = await RecorderManager.destroy();
+                                    switch ( response ) {
+                                    	case RecorderManager.Response.IS_RECORDING:
+                                    		console.log("Manager already is recording audio");
+                                    		break;
+                                    	case RecorderManager.Response.SUCCESS:
+                                    		console.log("Process executed with success");
+                                    		break;
+                                    	case RecorderManager.Response.FAILED:
+                                    		console.log("Process can not be executed or failed trying to execute");
+                                    		break;
+                                    	case RecorderManager.Response.UNKNOWN_ERROR:
+                                    		console.log("Unknown error occurred trying to execute");
+                                    		break;
+                                    	case RecorderManager.Response.INVALID_AUDIO_PATH:
+                                    		console.log("The path where the audio must be temporary stored is invalid");
+                                    		break;
+                                        case RecorderManager.Response.NOTHING_TO_STOP:
+                                            console.log("There is no record process to stop");
+                                            break;
+                                        case RecorderManager.Response.NO_PERMISSION:
+                                            console.log("Did you not forget ass permission manifest.xml or no user permission?");
+                                            break;
+                                    }
+                                }
+                            }
+                            title="DESTROY"
+                            color="#841584"/>
+
 
                     </View>
 

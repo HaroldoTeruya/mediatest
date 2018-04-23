@@ -1,7 +1,6 @@
 package com.mediatest;
 
 import android.app.Application;
-import android.view.WindowManager;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -12,6 +11,7 @@ import com.media.module.audio.AudioManagerPackage;
 import com.media.module.device.DeviceManagerPackage;
 // import com.media.module.blurview.BlurViewPackage;
 import com.media.module.directory.DirectoryManagerPackage;
+import com.media.module.recorder.RecorderManagerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
         new MainReactPackage(),
         new AudioManagerPackage(),
         new DeviceManagerPackage(),
-        new DirectoryManagerPackage()
+        new DirectoryManagerPackage(),
+        new RecorderManagerPackage()
         //,
         // new BlurViewPackage()
       );

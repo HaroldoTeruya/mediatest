@@ -33,11 +33,11 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* mediatestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mediatestTests.m */; };
 		5C0084E2206D3F9500029BF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0084E1206D3F9500029BF7 /* AppDelegate.m */; };
-		5C18E75B203B549A005A5530 /* libRNReactNativeMedia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C18E75A203B5488005A5530 /* libRNReactNativeMedia.a */; };
 		5C18E75E203B54AC005A5530 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C18E75D203B54AC005A5530 /* dummy.swift */; };
 		5C707CC82064652600C9302A /* head.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C707CA02064652500C9302A /* head.png */; };
 		5C707CC92064652600C9302A /* Ringtone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5C707CC72064652500C9302A /* Ringtone.caf */; };
 		5C7A9DF7203CBD4F00535399 /* Lindsey Stirling - Prism.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C7A9DD0203CBD4F00535399 /* Lindsey Stirling - Prism.mp3 */; };
+		5C9C4FE02088D7DF003A241D /* libRNReactNativeMedia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C18E75A203B5488005A5530 /* libRNReactNativeMedia.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -376,6 +376,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C9C4FE02088D7DF003A241D /* libRNReactNativeMedia.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -388,7 +389,6 @@
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
-				5C18E75B203B549A005A5530 /* libRNReactNativeMedia.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1276,7 +1276,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 86G9474ZUN;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-media/ios/**";
 				INFOPLIST_FILE = mediatest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1302,7 +1302,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86G9474ZUN;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-media/ios/**";
 				INFOPLIST_FILE = mediatest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
